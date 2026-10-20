@@ -1,0 +1,326 @@
+{
+    "game": {
+        "showAnswers": false,
+        "waitAdmin": false,
+        "showQuestionCount": true,
+        "suffleQuestions": true,
+        "suffleAnswers": true,
+        "playerLimit": 20,
+        "playerLimitQuestion": {
+            "min": 1,
+            "max": 5
+        },
+        "preview": {
+            "time": 5,
+            "showQuestion": true,
+            "showAnswers": false
+        },
+        "score": {
+            "isShow": {
+                "my": true,
+                "others": false
+            },
+            "magnitude": 2,
+            "multiply": 1,
+            "limitAnswerMultiplier": {
+                "min": 0.5,
+                "max": 10
+            },
+            "limitGameMultiplier": {
+                "min": 10,
+                "max": 1000
+            },
+            "timeDependence": {
+                "time": {
+                    "max": 30,
+                    "min": 3
+                },
+                "minPercent": 10
+            },
+            "rankDependenceMultiplier": 1.1,
+            "lastRankBonusMultiplier": 1.5,
+            "streakBonus": {
+                "percent": 10,
+                "type": "total",
+                "includeSaveStreak": false
+            },
+            "substraction": {
+                "percent": 50,
+                "type": "answer"
+            }
+        },
+        "streak": {
+            "saveStreakCount": 1,
+            "includeSaveStreak": false
+        },
+        "rank": {
+            "isShow": {
+                "my": true,
+                "others": "nearby"
+            },
+            "regarding": "correct"
+        },
+        "time": {
+            "answer": {
+                "min": 1,
+                "max": 60
+            },
+            "game": {
+                "min": 60,
+                "max": 600,
+                "lastChance": true
+            }
+        }
+    },
+    "questions": [
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            }
+        },
+        {
+            "type": "input",
+            "title": "Введите правильный answer",
+            "answers": {
+                "correct": ["середина", "mid", "center центра", "><"],
+                "isCorrectCase": false,
+                "showCountSymbols": true,
+                "done": {
+                    "before": "Начало start",
+                    "after": "End конца"
+                }
+            }
+        },
+        {
+            "type": "input",
+            "title": "Введите правильный answer",
+            "answers": {
+                "correct": ["середина", "mid", "center центра", "><"],
+                "allowSymbolGroup": ["numbers", "english", "space", "math", "specifical", "other"],
+                "isCorrectCase": false,
+                "trimAnswer": true
+            }
+        },
+        {
+            "type": "input",
+            "title": "Введите правильный answer",
+            "answers": {
+                "correct": null,
+                "isCorrectCase": false,
+                "allowMultiString": true
+            },
+            "game": {
+                "waitAdmin": true
+            }
+        },
+        {
+            "type": "selection",
+            "title": "Выберите все answers",
+            "answers": {
+                "variants": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+                "correct": [0, 4, 9],
+                "isPatrialScore": {
+                    "emptyIsWrong": true
+                }
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "image": "https:test.test/img.png",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "image": "./img.png",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "subtitle": "Если это testing file, то вопрос...",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1,
+                "explanation": {
+                    "correct": "Yes, это правильный ответ",
+                    "wrong": "Нет, it's неправильный ответ"
+                }
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1,
+                "explanation": [
+                    "Это english ответ",
+                    "Отлично!",
+                    "Совсем wrong ответ",
+                    "!ХXХ!"
+                ]
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            },
+            "game": {
+                "showAnswers": true,
+                "score": {
+                    "multiply": 2
+                }
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            },
+            "hint": {
+                "time": 10,
+                "auto": true,
+                "penalty": false,
+                "text": "Попробуй russian вариант"
+            }
+        },
+        {
+            "type": "selection",
+            "title": "This is тестовый вопрос?",
+            "answers": {
+                "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
+                "correct": 1
+            },
+            "hint": {
+                "time": 0,
+                "auto": false,
+                "penalty": {
+                    "substractionPercent": 10,
+                    "ifWrong": false
+                },
+                "text": "Попробуй russian вариант"
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": false
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": {
+                    "method": "index",
+                    "pairWrong": true,
+                    "emptyIsWrong": true
+                }
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": {
+                    "method": "accuracy",
+                    "pairWrong": false,
+                    "emptyIsWrong": true
+                }
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": {
+                    "method": "skip",
+                    "pairWrong": true,
+                    "emptyIsWrong": false
+                }
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": {
+                    "method": "islands",
+                    "pairWrong": false,
+                    "emptyIsWrong": false
+                }
+            }
+        },
+        {
+            "type": "order",
+            "title": "Правильный order",
+            "answers": {
+                "variants": ["First", "3", "Второй", "#!?"],
+                "correct": [0, 2, 1],
+                "isPatrialScore": {
+                    "method": "biggestIsland",
+                    "pairWrong": false,
+                    "emptyIsWrong": false
+                }
+            }
+        },
+        {
+            "type": "match",
+            "title": "Сопоставьте variants",
+            "answers": {
+                "variants": [[2, 3, 1], ["Один", "Two", "Три"]],
+                "correct": [[0, 1], [1, 2], [2, 0]],
+                "isPatrialScore": {
+                    "pairWrong": true,
+                    "emptyIsWrong": true
+                }
+            }
+        },
+        {
+            "type": "container",
+            "title": "Распределите variants",
+            "answers": {
+                "variants": [[2, 3, 1], ["Второй", "Один", "Two", "Third", "Однажды", "Три"]],
+                "correct": [[0, 2], [3, 5], [1, 4]],
+                "isPatrialScore": {
+                    "emptyIsWrong": true
+                }
+            }
+        }
+    ]
+}
