@@ -225,7 +225,7 @@
                 <span class="game-header__badge"><?php echo 'Вопросов: ' . count(FILE['questions']); ?></span>
             </div>
         </div>
-        <button type="button" class="btn-start" id="start-game-btn" disabled>Старт</button>
+        <button type="button" class="btn-start" id="start-game-btn">Старт</button>
     </div>
 
     <!-- Блок списка игроков -->
@@ -237,52 +237,72 @@
     </div>
 
     <script>
-        // Подключаемся к точке входа с флагом для запуска нашего закрытого stream.php
-        const eventSource = new EventSource('/?action=stream_players');
-        const listContainer = document.getElementById('players-list');
+    const eventSource = new EventSource('/?action=stream_players');
+    const listContainer = document.getElementById('players-list');
+    const startBtn = document.getElementById('start-game-btn');
 
-        // Ловим новые данные от сервера
-        eventSource.onmessage = function(event) {
-            try {
-                const players = JSON.parse(event.data);
-                listContainer.innerHTML = '';
+    eventSource.onmessage = function(event) {
+        try {
+            const players = JSON.parse(event.data);
+            listContainer.innerHTML = '';
 
-                if (!players || players.length === 0) {
-                    listContainer.innerHTML = '<div class="admin-panel__status"><i>Игроков пока нет.</i></div>';
-                    return;
-                }
-
-                // Выводим игроков на экран
-players.forEach(player => {
-    const card = document.createElement('div');
-    card.className = 'player-card';
-    
-    // Создаем квадрат и вешаем БЭМ-класс
-    const colorBadge = document.createElement('span');
-    colorBadge.className = 'player-card__badge';
-    colorBadge.style.backgroundColor = player.color || '#00000000'; 
-
-    // Оборачиваем текст никнейма в отдельный элемент для скролла
-    const nameElement = document.createElement('span');
-    nameElement.className = 'player-card__name';
-    nameElement.textContent = player.username || 'Аноним';
-
-    // Собираем элементы вместе
-    card.appendChild(colorBadge);
-    card.appendChild(nameElement);
-    
-    listContainer.appendChild(card);
-});
-
-
-            } catch (error) {
-                console.error("Ошибка парсинга JSON базы данных:", error);
+            if (!players || players.length === 0) {
+                listContainer.innerHTML = '<div class="admin-panel__status"><i>Игроков пока нет.</i></div>';
+                return;
             }
-        };
 
-        eventSource.onerror = function() {
-            console.log("Соединение оборвалось. Скрипт переподключится сам...");
-        };
-    </script>
+            players.forEach(player => {
+                const card = document.createElement('div');
+                card.className = 'player-card';
+
+                const colorBadge = document.createElement('span');
+                colorBadge.className = 'player-card__badge';
+                colorBadge.style.backgroundColor = player.color || '#00000000';
+
+                const nameElement = document.createElement('span');
+                nameElement.className = 'player-card__name';
+                nameElement.textContent = player.username || 'Аноним';
+
+                card.appendChild(colorBadge);
+                card.appendChild(nameElement);
+                listContainer.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Ошибка парсинга JSON базы данных:", error);
+        }
+    };
+
+    eventSource.onerror = function() {
+        console.log("Соединение оборвалось. Скрипт переподключится сам...");
+    };
+
+    // Обработка нажатия на кнопку "Старт"
+    startBtn.addEventListener('click', async () => {
+        startBtn.disabled = true;
+        startBtn.textContent = 'Запуск...';
+
+        try {
+            const response = await fetch('/?action=start_game', {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                // Закрываем стрим списка игроков перед переходом
+                eventSource.close();
+                // Перезагружаем страницу — index.php сам отдаст admin/quiz.php
+                window.location.reload();
+            } else {
+                alert('Ошибка при запуске игры');
+                startBtn.disabled = false;
+                startBtn.textContent = 'Старт';
+            }
+        } catch (error) {
+            console.error('Ошибка сети:', error);
+            startBtn.disabled = false;
+            startBtn.textContent = 'Старт';
+        }
+    });
+</script>
+
 </body>
 </html>

@@ -16,7 +16,7 @@
             --btn-secondary-hover: #30363d;
             --btn-danger: #b62324;
             --btn-danger-hover: #da3637;
-            
+
             /* Адаптивные шрифты */
             --font-size-h1: clamp(1.5rem, 1.188rem + 1.5vw, 2.25rem);
             --font-size-h2: clamp(1.125rem, 0.969rem + 0.75vw, 1.5rem);
@@ -36,10 +36,10 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: start;
             align-items: center;
             gap: 20px;
-            padding: 20px;
+            padding: 60px 20px;
         }
 
         /* Общий стиль карточки для обоих блоков */
@@ -236,5 +236,23 @@
         </form>
     </div>
 
+<script>
+    // Подключаемся к роуту стрима через index.php
+    const startStream = new EventSource('./?action=stream_start');
+
+    // Слушаем конкретное событие 'game_start', которое шлет PHP
+    startStream.addEventListener('game_start', (event) => {
+        // Принудительно закрываем соединение со стороны браузера
+        startStream.close();
+        
+        // Перезагружаем страницу (или перенаправляем на страницу игры)
+        window.location.reload();
+    });
+
+    // Обработка ошибок (браузер сам попытается переподключиться при временном обрыве)
+    startStream.onerror = (error) => {
+        console.warn('Ожидание переподключения к потоку старта...', error);
+    };
+</script>
 </body>
 </html>

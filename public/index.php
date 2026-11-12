@@ -1,29 +1,47 @@
 <?php
-//поставь отображение у админа норм ников и цветов
-// if (isset($_GET['action']) && $_GET['action'] === 'stream_players') {
-//     require_once __DIR__ . '/../app/pages/admin/stream.php';
-//     exit;
-// }
+
 if(!file_exists('../app/config/config.json')){
     file_put_contents('../app/config/config.json', '');
 }
-
 if (file_exists('../app/config/config.json')){
     define('FILE', array_replace_recursive(json_decode(file_get_contents('../app/config/default_config.json'), true), json_decode(file_get_contents('../app/config/config.json'), true)));
 }
+if(!file_exists('../app/database/game_state.json') || filesize('../app/database/game_state.json') === 0){
+    file_put_contents('../app/database/game_state.json', '{"status": "waiting"}');
+}
 
-if($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
-    // require_once '../app/pages/admin/wait.php';
-
+if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+    if (isset($_GET['action']) && $_GET['action'] === 'stream_players' && strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'text/event-stream') !== false) {
+        require_once __DIR__ . '/../app/pages/admin/stream.php';
+        exit;
+    }
+    // 1. SSE-поток списка игроков
     if (isset($_GET['action']) && $_GET['action'] === 'stream_players') {
         require_once __DIR__ . '/../app/pages/admin/stream.php';
         exit;
     }
 
-    // В остальных случаях отдаем обычную страницу админки
-    require_once __DIR__ . '/../app/pages/admin/wait.php';
+    // 2. Обработчик кнопки "Старт"
+    if (isset($_GET['action']) && $_GET['action'] === 'start_game') {
+        require_once __DIR__ . '/../app/pages/admin/start.php';
+        exit;
+    }
+
+    // 3. Выбор страницы в зависимости от текущего статуса игры
+    $gameState = json_decode(file_get_contents(__DIR__ . '/../app/database/game_state.json'), true);
+
+    if (isset($gameState['status']) && $gameState['status'] === 'started') {
+        require_once __DIR__ . '/../app/pages/admin/quiz.php';
+    } else {
+        require_once __DIR__ . '/../app/pages/admin/wait.php';
+    }
 }
 else{
+    if (isset($_GET['action']) && $_GET['action'] === 'stream_start' && strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'text/event-stream') !== false) {
+        require_once __DIR__ . '/../app/pages/stream_start.php';
+        exit;
+    }
+
     function free_username($username = null){
         if($username === null){
             return true;
@@ -169,8 +187,12 @@ else{
         exit;
     }
 
+    //запускает игру
+    if (json_decode(file_get_contents('../app/database/game_state.json'), true)['status'] == 'started'){
+        require_once '../app/pages/quiz.php';
+    }
     //по сути, отменяет смену ника
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['username'] == $_SESSION['username']){
+    else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['username'] == $_SESSION['username']){
         unset($_SESSION['relogin']);
 
         header('Location: ./');
