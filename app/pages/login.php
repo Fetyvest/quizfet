@@ -47,7 +47,7 @@
             border-radius: 8px;
             padding: clamp(1.5rem, 1.083rem + 2.08vw, 3rem);
             width: 100%;
-            max-width: 490px;
+            max-width: 600px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
@@ -168,7 +168,7 @@
         <form class="auth__form" action="" method="POST">
             <div class="auth__input-group">
                 <button id="color" class="auth__color-btn" type="button" style="<?php  session_start(); if(isset($_SESSION['color'])){echo 'background-color: ' . $_SESSION['color'];}?>"></button>
-                <input autocomplete="on" class="auth__input" type="text" require id="inp" name="username" placeholder="<?php if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>" value="<?php session_start(); if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>">
+                <input autocomplete="on" class="auth__input" type="text" require id="inp" name="username" placeholder="<?php if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>" value="<?php if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>">
                 <input type="hidden" name="color" id="hcolor" value="<?php if(isset($_SESSION['color'])){echo $_SESSION['color'];}?>">
             </div>
             <?php 

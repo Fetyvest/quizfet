@@ -8,6 +8,7 @@
         :root {
             --bg-color: #0d1117;
             --card-bg: #161b22;
+            --badge-bg: #21262d;
             --border-color: #30363d;
             --text-main: #c9d1d9;
             --text-muted: #8b949e;
@@ -34,23 +35,75 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            gap: 20px;
             padding: 20px;
         }
 
-        /* Блок ожидания (БЭМ: .wait-screen) */
-        .wait-screen {
+        /* Общий стиль карточки для обоих блоков */
+        .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: clamp(1.5rem, 1.083rem + 2.08vw, 3rem);
             width: 100%;
-            max-width: 490px;
+            max-width: 600px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
+        /* Верхний блок с информацией о квизе (БЭМ: .game-info) */
+        .game-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Автоматическое скрытие пустых элементов (когда бэк не передал данные) */
+        .game-info:empty,
+        .game-info__title:empty,
+        .game-info__subtitle:empty,
+        .game-info__meta:empty,
+        .game-info__badge:empty {
+            display: none;
+        }
+
+        .game-info__title {
+            font-size: var(--font-size-h1);
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--text-main);
+        }
+
+        .game-info__subtitle {
+            font-size: var(--font-size-body);
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .game-info__meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .game-info__badge {
+            display: inline-block;
+            background-color: var(--badge-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* Блок ожидания (БЭМ: .wait-screen) */
         .wait-screen__title {
             font-size: var(--font-size-h1);
             font-weight: 600;
@@ -74,11 +127,22 @@
             flex-direction: column;
             align-items: center;
             vertical-align: bottom;
+            max-width: 70%;
         }
 
         .wait-screen__username {
             color: var(--text-main);
             font-weight: 500;
+            display: inline-block;
+            width: 100%;
+            white-space: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .wait-screen__username::-webkit-scrollbar {
+            display: none;
         }
 
         /* Базовые стили полосы под ником */
@@ -131,20 +195,40 @@
 </head>
 <body>
 
-    <div class="wait-screen">
-        <h1 class="wait-screen__title">Ожидайте включение</h1>
-        <h2 class="wait-screen__user"><span>Ваш ник: </span>
+    <!-- Верхний блок с информацией об игре -->
+    <?php
+    if(!empty(FILE['game']['title']) || !empty(FILE['game']['subtitle'])){
+        echo '<div class="card game-info">';
+    }
+    ?>
+    
+        <h1 class="game-info__title"><?php echo FILE['game']['title']; ?></h1>
+        <p class="game-info__subtitle"><?php echo FILE['game']['subtitle']; ?></p>
+        <!-- <div class="game-info__meta">
+            <span class="game-info__badge"><?php /* echo 'Вопросов: ' . count(FILE['questions']); */ ?></span>
+        </div> -->
+    
+    <?php
+    if(!empty(FILE['game']['title']) || !empty(FILE['game']['subtitle'])){
+        echo '</div>';
+    }
+    ?>
+
+    <!-- Блок ожидания -->
+    <div class="card wait-screen">
+        <h2 class="wait-screen__title">Ожидайте включение</h2>
+        <div class="wait-screen__user">
+            <span>Ваш ник: </span>
             <span class="wait-screen__username-wrapper">
                 <span class="wait-screen__username"><?php
                 session_start();
                 echo htmlspecialchars($_SESSION['username']);
                 ?></span>
-                <!-- Сюда пишите нужный цвет вместо #58a6ff -->
                 <span class="wait-screen__username-underline" style="background-color: <?php
                 echo htmlspecialchars($_SESSION['color']);
                 ?>;"></span>
             </span>
-        </h2>
+        </div>
         
         <form class="wait-screen__actions" action="" method="POST">
             <button type="submit" class="wait-screen__button wait-screen__button_edit" name="name_edit" value="true">Изменить</button>

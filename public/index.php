@@ -4,6 +4,13 @@
 //     require_once __DIR__ . '/../app/pages/admin/stream.php';
 //     exit;
 // }
+if(!file_exists('../app/config/config.json')){
+    file_put_contents('../app/config/config.json', '');
+}
+
+if (file_exists('../app/config/config.json')){
+    define('FILE', array_replace_recursive(json_decode(file_get_contents('../app/config/default_config.json'), true), json_decode(file_get_contents('../app/config/config.json'), true)));
+}
 
 if($_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
     // require_once '../app/pages/admin/wait.php';

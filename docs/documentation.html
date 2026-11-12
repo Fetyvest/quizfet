@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Документация к config.json</title>
+    <style>
+        * {
+            font-family: monospace;
+        }
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+        }
+        main {
+            /*max-width: 1000px;*/
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h1 {
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        ul {
+            list-style-type: square;
+            border-left: 1px lightgray solid;
+            padding-left: 20px;
+            margin-left: 20px;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .type {
+            color: #6f42c1;
+            font-weight: bold;
+        }
+        .value {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>config.json</h1>
+        <h2>"game"</h2>
+        "game" (<span class="type">obj</span>) — глобальные настройки игровой сессии
+        <ul>
+                    <li>
+                        "title" (<span class="type">str</span>) — название квиза
+                    </li>
+                    <li>
+                        "subtitle" (<span class="type">null|str</span>) — подзаголовок квиза
+                        <ul>
+                            <li><span class="value">null</span> — подзаголовок отсутствует</li>
+                            <li><span class="value">str</span> — текст подзаголовка</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "showAnswers" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — показывать правильный ответ текущего вопроса перед следующим</li>
+                            <li><span class="value">false</span> — сразу переходить к следующему вопросу</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "waitAdmin" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — админ сам запускает каждый следующий вопрос</li>
+                            <li><span class="value">false</span> — каждый игрок решает задания в своём темпе</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "showQuestionCount" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — показывать общее количество вопросов в квизе</li>
+                            <li><span class="value">false</span> — показывать количество только уже решённых вопросов</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "suffleQuestions" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — перемешивать порядок вопросов при старте игры</li>
+                            <li><span class="value">false</span> — идти строго по заданному порядку</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "suffleAnswers" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — перемешивать варианты ответов внутри вопросов</li>
+                            <li><span class="value">false</span> — отображать варианты в исходном порядке</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "playerLimit" (<span class="type">null|int</span>) — максимальное количество игроков в игровой комнате
+                        <ul>
+                            <li><span class="value">null</span> — без ограничений</li>
+                            <li><span class="value">int</span> — количество игроков</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "playerLimitQuestion" (<span class="type">obj</span>) — максимальное количество игроков на одном вопросе
+                        <ul>
+                            <li>"min" (<span class="type">int</span>) — минимальное количество игроков</li>
+                            <li>
+                                "max" (<span class="type">null|int</span>) — максимальное количество игроков
+                            <ul>
+                                <li><span class="value">null</span> — без ограничений</li>
+                                <li><span class="value">int</span> — количество игроков</li>
+                            </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "preview" (<span class="type">bool{false}|obj</span>)
+                        <ul>
+                            <li><span class="value">false</span> — полностью выключает экран предпросмотра</li>
+                            <li>
+                                <span class="value">obj</span> — настройки отображения экрана предпросмотра
+                                <ul>
+                                    <li>"time" (<span class="type">float</span>) — длительность показа экрана предпросмотра в секундах</li>
+                                    <li>
+                                        "showQuestion" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — показывать формулировку вопроса во время предпросмотра</li>
+                                            <li><span class="value">false</span> — скрывать текст вопроса во время предпросмотра</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "showAnswers" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — заранее показывать варианты ответа на экране предпросмотра</li>
+                                            <li><span class="value">false</span> — держать варианты скрытыми до начала таймера ответа</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "score" (<span class="type">bool{false}|obj</span>) — настройки калькуляции и отображения очков
+                        <ul>
+                            <li><span class="value">false</span> — выключить систему очков</li>
+                            <li>
+                                <span class="value">obj</span> — настройки счёта
+                                <ul>
+                                    <li>
+                                        "isShow" (<span class="type">obj</span>) — управление видимостью очков
+                                        <ul>
+                                            <li>
+                                                "my" (<span class="type">bool</span>)
+                                                <ul>
+                                                    <li><span class="value">true</span> — игрок видит своё количество очков</li>
+                                                    <li><span class="value">false</span> — свой счёт скрыт</li>
+                                                </ul>
+                                            </li>
+                                            <li> 
+                                                "others" (<span class="type">bool{false}|string{nearby|all}</span>)
+                                                <ul>
+                                                    <li><span class="value">false</span> — отображение количества очков других игроков скрыто</li>
+                                                    <li><span class="value">"nearby"</span> — отображение количества очков соседних игроков в таблице</li>
+                                                    <li><span class="value">"all"</span> — отображение счёта всех игроков</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>"magnitude" (<span class="type">int</span>) — базовая величина количества очков за правильный ответ. Например, 0 - до 10, 1 - до 100, 10 - до 1000</li>
+                                    <li>"multiply" (<span class="type">float</span>) — глобальный множитель набранных очков</li>
+                                    <li>
+                                        "limitAnswerMultiplier" (<span class="type">obj</span>) — границы количества очков за один вопрос
+                                        <ul>
+                                            <li>"min" (<span class="type">float</span>) — минимальное количество очков (результат равен параметру magnitude, умноженному на данный параметр)</li>
+                                            <li>
+                                                "max" (<span class="type">float|null</span>) — максимальное количество очков (результат равен параметру magnitude, умноженному на данный параметр)
+                                                <ul>
+                                                    <li><span class="value">float</span> — числовой множитель</li>
+                                                    <li><span class="value">null</span> — без ограничений</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "limitGameMultiplier" (<span class="type">obj</span>) — границы количества очков за всю игру
+                                        <ul>
+                                            <li>"min" (<span class="type">float</span>) — минимальное количество очков (результат равен параметру magnitude, умноженному на данный параметр)</li>
+                                            <li>
+                                                "max" (<span class="type">float|null</span>) — максимальное количество очков (результат равен параметру magnitude, умноженному на данный параметр)
+                                                <ul>
+                                                    <li><span class="value">float</span> — числовой множитель</li>
+                                                    <li><span class="value">null</span> — без ограничений</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "timeDependence" (<span class="type">bool{false}|obj</span>) — динамика уменьшения очков в зависимости от времени размышления
+                                        <ul>
+                                            <li><span class="value">false</span> — выключить зависимость от времени</li>
+                                            <li>
+                                                "time" (<span class="type">obj</span>) — временные рамки фиксации скорости
+                                                <ul>
+                                                    <li>"min" (<span class="type">float</span>) — порог минимального времени, быстрее которого очки перестают увеличиваться</li>
+                                                    <li>
+                                                        "max" (<span class="type">float|null</span>) — время в секундах, до истечения которого начисляется максимум очков
+                                                        <ul>
+                                                            <li><span class="value">float</span> — числовой множитель</li>
+                                                            <li><span class="value">null</span> — без ограничений</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>"minPercent" (<span class="type">int</span>) — минимальный процент очков от базовой стоимости, ниже которого награда не опустится даже при ответе на последней секунде</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>"rankDependenceMultiplier" (<span class="type">float</span>) — каждый следующий игрок в топе получит количество очков, умноженное на это значение</li>
+                                    <li>"lastRankBonusMultiplier" (<span class="type">float</span>) — последний игрок в топе будет получать количество очков, умноженное на это значение</li>
+                                    <li>
+                                        "streakBonus" (<span class="type">boll{false}|obj</span>) — логика бонусов за серию правильных ответов подряд
+                                        <ul>
+                                            <li><span class="value">false</span> — выключить бонус за серию</li>
+                                            <li>
+                                                <span class="value">obj</span> — настройки бонусов за серии
+                                                <ul>
+                                                    <li>"percent" (<span class="type">float</span>) — процент бонуса, добавляемый за каждый шаг серии</li>
+                                                    <li>
+                                                        "type" (<span class="type">string</span>) — база для расчета процента
+                                                        <ul>
+                                                            <li><span class="value">"total"</span> — процент рассчитывается от общего накопленного счёта игрока</li>
+                                                            <li><span class="value">"answer"</span> — процент считается только от стоимости текущего ответа</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li>"includeSaveStreak" (<span class="type">bool</span>) — учитывается ли накопленный стрик, защищенный сохранением, при расчете этого бонуса</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "substraction" (<span class="type">bool{false}|obj</span>) — параметры штрафов при совершении ошибок
+                                        <ul>
+                                            <li><span class="value">false</span> — выключить вычитание очков</li>
+                                            <li>
+                                                <span class="value">obj</span> — настройки штрафов
+                                                <ul>
+                                                    <li>"percent" (<span class="type">int</span>) — процент, удерживаемый в качестве штрафа</li>
+                                                    <li>
+                                                        "type" (<span class="type">string</span>) — объект удержания штрафа
+                                                        <ul>
+                                                            <li><span class="value">"total"</span> — штраф списывается напрямую с общего баланса очков игрока</li>
+                                                            <li><span class="value">"answer"</span> — штраф вычитается из потенциальной стоимости текущего вопроса (уход в минус)</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "streak" (<span class="type">bool{false}|obj</span>) — параметры системы серий ответов (страйков)
+                        <ul>
+                            <li><span class="value">false</span> — выключить серии</li>
+                            <li>
+                                <span class="value">obj</span> — настройки серий
+                                <ul>
+                                    <li>"saveStreakCount" (<span class="type">int</span>) — количество доступных «сохранений» (щитов), защищающих серию от сброса при ошибке</li>
+                                    <li>"includeSaveStreak" (<span class="type">bool</span>) — засчитывать ли защищённый страйк в общее число</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "rank" (<span class="type">obj</span>) — архитектура таблицы лидеров
+                        <ul>
+                            <li>
+                                "isShow" (<span class="type">bool{false}|obj</span>) — правила отображения рейтинга
+                                <ul>
+                                    <li><span class="value">false</span> — выключить отображение рейтинга</li>
+                                    <li>
+                                        <span class="value">obj</span> — настройки отображения рейтинга
+                                        <ul>
+                                            <li>"my" (<span class="type">bool</span>) — видит ли пользователь свое место в топе</li>
+                                            <li>
+                                                "others" (<span class="type">bool{false}|string{nearby|all}</span>) — режим просмотра чужих позиций
+                                                <ul>
+                                                    <li><span class="value">false</span> — отображение мест других игроков скрыто</li>
+                                                    <li><span class="value">nearby</span> — отображение места соседних игроков в таблице</li>
+                                                    <li><span class="value">all</span> — отображение места всех игроков</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                "regarding" (<span class="type">string</span>) — основной критерий сортировки ранка
+                                <ul>
+                                    <li><span class="value">"correct"</span> — сортировка по количеству правильных ответов</li>
+                                    <li><span class="value">"score"</span> — сортировка по сумме набранных очков</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "time" (<span class="type">obj</span>) — глобальные лимиты времени сессии
+                        <ul>
+                            <li>
+                                "answer" (<span class="type">obj</span>) — лимиты на размышление над одним вопросом
+                                <ul>
+                                    <li>"min" (<span class="type">float</span>) — минимально допустимый лимит времени (в секундах)</li>
+                                    <li>
+                                        "max" (<span class="type">null|float</span>) — максимально допустимый лимит времени (в секундах)
+                                        <ul>
+                                            <li><span class="value">null</span> — без ограничений</li>
+                                            <li><span class="value">float</span> — время в секундах</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                "game" (<span class="type">obj</span>) — тайминги на прохождение всего квиза целиком
+                                <ul>
+                                    <li>"min" (<span class="type">float</span>) — минимальное общее время на игру (в секундах)</li>
+                                    <li>
+                                        "max" (<span class="type">null|float</span>) — максимальное общее время на игру (в секундах)
+                                        <ul>
+                                            <li><span class="value">null</span> — без ограничений</li>
+                                            <li><span class="value">float</span> — время в секундах</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "lastChance" (<span class="type">bool</span>) — если общее время квиза истекло, но игрок прямо сейчас решает вопрос
+                                        <ul>
+                                            <li><span class="value">true</span> — дать возможность ответить на текущий вопрос</li>
+                                            <li><span class="value">false</span> — мгновенно прервать игру</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+        </ul>
+        
+        <h2>"questions"</h2>
+        "questions" (<span class="type">array</span>) — массив с объектами вопросов. Каждый вопрос может содержать следующие параметры:
+        <ul>
+            <li>
+                "type" (<span class="type">string{selection|input|order|match|container}</span>) — механика взаимодействия с вопросом
+                <ul>
+                    <li><span class="value">"selection"</span> — тестовый выбор из предложенных вариантов ответов (один или несколько правильных вариантов)</li>
+                    <li><span class="value">"input"</span> — ручной текстовый ввод ответа в поле</li>
+                    <li><span class="value">"order"</span> — сортировка вариантов в правильной последовательности</li>
+                    <li><span class="value">"match"</span> — сопоставление пар между двумя группами элементов</li>
+                    <li><span class="value">"container"</span> — распределение вариантов по соответствующим категориям</li>
+                </ul>
+            </li>
+            <li>"title" (<span class="type">string</span>) — основной текст (формулировка) вопроса. Поддерживает UTF-8 кодировку</li>
+            <li>"subtitle" (<span class="type">string</span>) — подзаголовок, дополнительное описание, подсказка или контекст к вопросу</li>
+            <li>"image" (<span class="type">string</span>) — ссылка на изображение к вопросу (может быть абсолютным URL "https://..." или локальным путем "./img.png")</li>
+            <li>
+                "hint" (<span class="type">obj</span>) — настройки подсказки для текущего вопроса
+                <ul>
+                    <li>"time" (<span class="type">int</span>) — задержка в секундах от начала вопроса, после которой подсказка станет доступна</li>
+                    <li>"auto" (<span class="type">bool</span>) — показывать ли подсказку автоматически при наступлении времени таймера без клика пользователя</li>
+                    <li>
+                        "penalty" (<span class="type">bool|obj</span>) — штраф за использование подсказки
+                        <ul>
+                            <li><span class="value">false</span> — штраф отсутствует</li>
+                            <li>
+                                <span class="value">obj</span> — параметры удержания штрафа
+                                <ul>
+                                    <li>"substractionPercent" (<span class="type">float</span>) — какой процент стоимости вопроса отнять при открытии подсказки</li>
+                                    <li>"ifWrong" (<span class="type">bool</span>) — применять ли этот штраф даже в случае неверного ответа</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>"text" (<span class="type">string</span>) — содержательный текст подсказки</li>
+                </ul>
+            </li>
+            <li>
+                "game" (<span class="type">obj</span>) — локальное переопределение настроек. Позволяет точечно переписать глобальные параметры исключительно для данного вопроса. Не все параметры подлежат переопределению
+            </li>
+            <li>
+                "answers" (<span class="type">obj</span>) — блок валидации и вариантов ответов. Структура динамически зависит от параметра "type" вопроса:
+                
+                <br><strong>[Для type: "selection"]</strong>
+                <ul>
+                    <li>"variants" (<span class="type">array</span>) — плоский массив с вариантами ответов (строками или числами)</li>
+                    <li>
+                        "correct" (<span class="type">int|array</span>) — указатель на верный выбор. 
+                        <ul>
+                            <li><span class="value">int</span> — индекс одного правильного ответа</li>
+                            <li><span class="value">array</span> — индексы множественного выбор</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "isPatrialScore" (<span class="type">bool{false}|obj</span>) — логика частичных баллов за распределение предметов по контейнерам
+                        <ul>
+                            <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
+                            <li>
+                                <span class="value">obj</span> — параметры частичных баллов
+                                <ul>
+                                    <li>
+                                        "emptyIsWrong" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — считать невыбранный правильный ответ за ошибку</li>
+                                            <li><span class="value">false</span> — игнорировать невыбранные правильные ответы</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        "explanation" (<span class="type">obj|array</span>) — пояснения к ответам
+                        <ul>
+                            <li>
+                                <span class="value">obj</span> — делит подсказки на категории (правильный и неправильный ответ)
+                                <ul>
+                                    <li>"correct" (<span class="type">string</span>) — выводится при верном ответе</li>
+                                    <li>"wrong" (<span class="type">string</span>) — выводится при ошибке</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span class="value">array</span> — подсказки индивидуальны для каждого ответа из элемента "variants" по соответствующему индексу
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <strong>[Для type: "input"]</strong>
+                <ul>
+                    <li>
+                        "correct" (<span class="type">string|array|null</span>)
+                        <ul>
+                            <li><span class="value">string</span> — единственный правильный ответ</li>
+                            <li><span class="value">array</span> — список всех допустимых строк-синонимов, которые система примет как правильный ответ</li>
+                            <li><span class="value">null</span> — админ сам проверит ответ вопрос</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "allowSymbolGroup" (<span class="type">array</span>) — белый список разрешенных групп символов для ввода. Список строк, которые может содержать массив:
+                        <ul>
+                            <li><span class="value">"numbers"</span> — цифры разрешены</li>
+                            <li><span class="value">"english"</span> — английские буквы разрешены</li>
+                            <li><span class="value">"space"</span> — пробел разрешён разрешены</li>
+                            <li><span class="value">"math"</span> — знаки математических операций разрешены</li>
+                            <li><span class="value">"specifical"</span> — специальные символы разрешены</li>
+                            <li><span class="value">"other"</span> — всё остальное разрешено</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "isCorrectCase" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — регистр букв должен строго совпадать с регистром букв ответа</li>
+                            <li><span class="value">false</span> — регистр игнорируется (всегда, если язык не русский и не английский)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "showCountSymbols" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — показывать количество символов в правильном ответе</li>
+                            <li><span class="value">false</span> — количество символов правильного ответа скрыто</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "trimAnswer" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — автоматически отсекать лишние пробелы в начале и конце введенной пользователем строки перед проверкой</li>
+                            <li><span class="value">false</span> — не отсекать лишние пробелы и оставить исходный ответ</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "allowMultiString" (<span class="type">bool</span>)
+                        <ul>
+                            <li><span class="value">true</span> — разрешить ввод многострочного текста</li>
+                            <li><span class="value">false</span> — однострочный ответ</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "done" (<span class="type">obj</span>) — параметры форматирования строки вывода на финальном экране/экране истории
+                        <ul>
+                            <li>"before" (<span class="type">string</span>) — текст, который отображается пользователю перед вводимым ответом</li>
+                            <li>"after" (<span class="type">string</span>) — текст, который отображается пользователю после вводимого ответом</li>
+                        </ul>
+                    </li>
+                </ul>
+                <strong>[Для type: "order"]</strong>
+                <ul>
+                    <li>"variants" (<span class="type">array</span>) — элементы, которые игроку необходимо расставить в правильном порядке</li>
+                    <li>"correct" (<span class="type">array</span>) — массив, задающий правильную последовательность индексов исходного массива вариантов</li>
+                    <li>
+                        "isPatrialScore" (<span class="type">bool{false}|obj</span>) — настройки частичного начисления баллов при частичной верной сортировке
+                        <ul>
+                            <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
+                            <li>
+                                <span class="value">obj</span> — параметры частичных баллов
+                                <ul>
+                                    <li>
+                                        <ul>
+                                            <li>
+                                                "pairWrong" (<span class="type">bool</span>)
+                                                <ul>
+                                                    <li><span class="value">true</span> — если перепутана только 1 пара элементов (строго 2 элемента из всей последовательности неверны), то это считается за одну ошибку</li>
+                                                    <li><span class="value">false</span> — если перепутана пара элементов, то это считается за 2 ошибки (так как два элемента не на своих местах)</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                "method" (<span class="type">string{index|accuracy|skip|islands|biggestIsland}</span>)
+                                                <ul>
+                                                    <li><span class="value">"index"</span> — сравнивает по индексам. Из ряда 14325678 находит ошибочными 432 (3 ошибки)</li>
+                                                    <li><span class="value">"accuracy"</span> — следующий пункт должен быть больше текущего. Из ряда 12635748 находит ошибочными 354 (3 ошибки)</li>
+                                                    <li><span class="value">"skip"</span> — следующий пункт должен быть на 1 больше текущего. Из ряда 12678345 находит ошибочными 678 (3 ошибки)</li>
+                                                    <li><span class="value">"islands"</span> — ищет цельные кусочки, не важен их порядок, но важен порядок элементов внутри. Из ряда 45612378 находит 3 ошибки, так как 3 кусочка</li>
+                                                    <li><span class="value">"biggestIsland"</span> — ищет наибольший цельный кусочек, не важен их порядок, но важен порядок элементов внутри. Из ряда 78345612 находит ошибочными 7812 (4 ошибки)</li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                "emptyIsWrong" (<span class="type">bool</span>)
+                                                <ul>
+                                                    <li><span class="value">true</span> — считать невыбранный правильный ответ за ошибку</li>
+                                                    <li><span class="value">false</span> — игнорировать невыбранные правильные ответы</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br><strong>[Для type: "match"]</strong>
+                <ul>
+                    <li>
+                        "variants" (<span class="type">array</span>) — две сопоставляемые группы данных. Массив содержит два массива (две группы элементов)
+                    </li>
+                    <li>
+                        "correct" (<span class="type">array</span>) — массив пар соответствий. Каждая пара представлена индексом элемента из первой группы и индексом из второй группы
+                    </li>
+                    <li>
+                        "isPatrialScore" (<span class="type">obj</span>) — настройки начисления баллов за неполное сопоставление
+                        <ul>
+                            <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
+                            <li>
+                                <span class="value">obj</span> — параметры частичных баллов
+                                <ul>
+                                    <li>
+                                        "pairWrong" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — если перепутана только 1 пара элементов (строго 2 элемента из одной группы), то это считается за одну ошибку</li>
+                                            <li><span class="value">false</span> — если перепутана пара элементов, то это считается за 2 ошибки (так как два элемента не со своей парой)</li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        "emptyIsWrong" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — считать невыбранный правильный ответ за ошибку</li>
+                                            <li><span class="value">false</span> — игнорировать невыбранные правильные ответы</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br><strong>[Для type: "container"]</strong>
+                <ul>
+                    <li>
+                        "variants" (<span class="type">array</span>) — структура распределения, содержит массив имен категорий (контейнеров) и массив перетаскиваемых элементов
+                    </li>
+                    <li>
+                        "correct" (<span class="type">array</span>) — привязка элементов к категориям (двумерный массив), порядок массивов внутри соответствует порядку категорий, внутри массивов индексы перетаскиваемых элементов
+                    </li>
+                    <li>
+                        "isPatrialScore" (<span class="type">obj</span>) — логика частичных баллов за распределение предметов по контейнерам
+                        <ul>
+                            <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
+                            <li>
+                                <span class="value">obj</span> — параметры частичных баллов
+                                <ul>
+                                    <li>
+                                        "emptyIsWrong" (<span class="type">bool</span>)
+                                        <ul>
+                                            <li><span class="value">true</span> — считать невыбранный правильный ответ за ошибку</li>
+                                            <li><span class="value">false</span> — игнорировать невыбранные правильные ответы</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </main>
+</body>
+</html>
