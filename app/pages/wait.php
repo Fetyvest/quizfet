@@ -197,19 +197,19 @@
 
     <!-- Верхний блок с информацией об игре -->
     <?php
-    if(!empty(FILE['game']['title']) || !empty(FILE['game']['subtitle'])){
+    if(!empty(CONFIG['game']['title']) || !empty(CONFIG['game']['subtitle'])){
         echo '<div class="card game-info">';
     }
     ?>
     
-        <h1 class="game-info__title"><?php echo FILE['game']['title']; ?></h1>
-        <p class="game-info__subtitle"><?php echo FILE['game']['subtitle']; ?></p>
+        <h1 class="game-info__title"><?php echo CONFIG['game']['title']; ?></h1>
+        <p class="game-info__subtitle"><?php echo CONFIG['game']['subtitle']; ?></p>
         <!-- <div class="game-info__meta">
-            <span class="game-info__badge"><?php /* echo 'Вопросов: ' . count(FILE['questions']); */ ?></span>
+            <span class="game-info__badge"><?php /* echo 'Вопросов: ' . count(CONFIG['questions']); */ ?></span>
         </div> -->
     
     <?php
-    if(!empty(FILE['game']['title']) || !empty(FILE['game']['subtitle'])){
+    if(!empty(CONFIG['game']['title']) || !empty(CONFIG['game']['subtitle'])){
         echo '</div>';
     }
     ?>
@@ -221,7 +221,6 @@
             <span>Ваш ник: </span>
             <span class="wait-screen__username-wrapper">
                 <span class="wait-screen__username"><?php
-                session_start();
                 echo htmlspecialchars($_SESSION['username']);
                 ?></span>
                 <span class="wait-screen__username-underline" style="background-color: <?php

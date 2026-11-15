@@ -71,7 +71,7 @@
         .game-header__info:empty,
         .game-header__title:empty,
         .game-header__subtitle:empty,
-        .game-header__meta:empty {
+        .game-header__meta:has(.game-header__badge:empty) {
             display: none;
         }
 
@@ -219,10 +219,10 @@
     <!-- Верхний блок с информацией об игре и кнопкой Старт -->
     <div class="admin-panel game-header">
         <div class="game-header__info">
-            <h1 class="game-header__title"><?php echo FILE['game']['title']; ?></h1>
-            <p class="game-header__subtitle"><?php echo FILE['game']['subtitle']; ?></p>
+            <h1 class="game-header__title"><?php echo CONFIG['game']['title']; ?></h1>
+            <p class="game-header__subtitle"><?php echo CONFIG['game']['subtitle']; ?></p>
             <div class="game-header__meta">
-                <span class="game-header__badge"><?php echo 'Вопросов: ' . count(FILE['questions']); ?></span>
+                <span class="game-header__badge"><?php if(isset(CONFIG['questions'])) echo 'Вопросов: ' . count(CONFIG['questions']); ?></span>
             </div>
         </div>
         <button type="button" class="btn-start" id="start-game-btn">Старт</button>
@@ -237,7 +237,7 @@
     </div>
 
     <script>
-    const eventSource = new EventSource('/?action=stream_players');
+    const eventSource = new EventSource('./?action=stream_players');
     const listContainer = document.getElementById('players-list');
     const startBtn = document.getElementById('start-game-btn');
 
@@ -282,7 +282,7 @@
         startBtn.textContent = 'Запуск...';
 
         try {
-            const response = await fetch('/?action=start_game', {
+            const response = await fetch('./?action=start_game', {
                 method: 'POST'
             });
 

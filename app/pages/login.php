@@ -167,7 +167,7 @@
         
         <form class="auth__form" action="" method="POST">
             <div class="auth__input-group">
-                <button id="color" class="auth__color-btn" type="button" style="<?php  session_start(); if(isset($_SESSION['color'])){echo 'background-color: ' . $_SESSION['color'];}?>"></button>
+                <button id="color" class="auth__color-btn" type="button" style="<?php if(isset($_SESSION['color'])){echo 'background-color: ' . $_SESSION['color'];}?>"></button>
                 <input autocomplete="on" class="auth__input" type="text" require id="inp" name="username" placeholder="<?php if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>" value="<?php if(isset($_SESSION['username'])){echo htmlspecialchars($_SESSION['username']);}?>">
                 <input type="hidden" name="color" id="hcolor" value="<?php if(isset($_SESSION['color'])){echo $_SESSION['color'];}?>">
             </div>

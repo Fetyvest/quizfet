@@ -350,9 +350,10 @@
         "questions" (<span class="type">array</span>) — массив с объектами вопросов. Каждый вопрос может содержать следующие параметры:
         <ul>
             <li>
-                "type" (<span class="type">string{selection|input|order|match|container}</span>) — механика взаимодействия с вопросом
+                "type" (<span class="type">string{select|multiselect|input|order|match|container}</span>) — механика взаимодействия с вопросом
                 <ul>
-                    <li><span class="value">"selection"</span> — тестовый выбор из предложенных вариантов ответов (один или несколько правильных вариантов)</li>
+                    <li><span class="value">"select"</span> — тестовый выбор из предложенных вариантов ответов (один из одного или нескольких вариантов)</li>
+                    <li><span class="value">"multiselect"</span> — тестовый выбор из предложенных вариантов ответов (несколько из одного или нескольких вариантов)</li>
                     <li><span class="value">"input"</span> — ручной текстовый ввод ответа в поле</li>
                     <li><span class="value">"order"</span> — сортировка вариантов в правильной последовательности</li>
                     <li><span class="value">"match"</span> — сопоставление пар между двумя группами элементов</li>
@@ -389,18 +390,44 @@
             <li>
                 "answers" (<span class="type">obj</span>) — блок валидации и вариантов ответов. Структура динамически зависит от параметра "type" вопроса:
                 
-                <br><strong>[Для type: "selection"]</strong>
+                <br><strong>[Для type: "select"]</strong>
                 <ul>
                     <li>"variants" (<span class="type">array</span>) — плоский массив с вариантами ответов (строками или числами)</li>
                     <li>
                         "correct" (<span class="type">int|array</span>) — указатель на верный выбор. 
                         <ul>
                             <li><span class="value">int</span> — индекс одного правильного ответа</li>
-                            <li><span class="value">array</span> — индексы множественного выбор</li>
+                            <li><span class="value">array</span> — индексы множественного выбора</li>
                         </ul>
                     </li>
                     <li>
-                        "isPatrialScore" (<span class="type">bool{false}|obj</span>) — логика частичных баллов за распределение предметов по контейнерам
+                        "explanation" (<span class="type">obj|array</span>) — пояснения к ответам
+                        <ul>
+                            <li>
+                                <span class="value">obj</span> — делит подсказки на категории (правильный и неправильный ответ)
+                                <ul>
+                                    <li>"correct" (<span class="type">string</span>) — выводится при верном ответе</li>
+                                    <li>"wrong" (<span class="type">string</span>) — выводится при ошибке</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <span class="value">array</span> — подсказки индивидуальны для каждого ответа из элемента "variants" по соответствующему индексу
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <strong>[Для type: "multiselect"]</strong>
+                <ul>
+                    <li>"variants" (<span class="type">array</span>) — плоский массив с вариантами ответов (строками или числами)</li>
+                    <li>
+                        "correct" (<span class="type">int|array</span>) — указатель на верный выбор. 
+                        <ul>
+                            <li><span class="value">int</span> — индекс одного правильного ответа</li>
+                            <li><span class="value">array</span> — индексы множественного выбора</li>
+                        </ul>
+                    </li>
+                    <li>
+                        "isPartialScore" (<span class="type">bool{false}|obj</span>) — логика частичных баллов
                         <ul>
                             <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
                             <li>
@@ -495,7 +522,7 @@
                     <li>"variants" (<span class="type">array</span>) — элементы, которые игроку необходимо расставить в правильном порядке</li>
                     <li>"correct" (<span class="type">array</span>) — массив, задающий правильную последовательность индексов исходного массива вариантов</li>
                     <li>
-                        "isPatrialScore" (<span class="type">bool{false}|obj</span>) — настройки частичного начисления баллов при частичной верной сортировке
+                        "isPartialScore" (<span class="type">bool{false}|obj</span>) — настройки частичного начисления баллов при частичной верной сортировке
                         <ul>
                             <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
                             <li>
@@ -543,7 +570,7 @@
                         "correct" (<span class="type">array</span>) — массив пар соответствий. Каждая пара представлена индексом элемента из первой группы и индексом из второй группы
                     </li>
                     <li>
-                        "isPatrialScore" (<span class="type">obj</span>) — настройки начисления баллов за неполное сопоставление
+                        "isPartialScore" (<span class="type">obj</span>) — настройки начисления баллов за неполное сопоставление
                         <ul>
                             <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
                             <li>
@@ -577,7 +604,7 @@
                         "correct" (<span class="type">array</span>) — привязка элементов к категориям (двумерный массив), порядок массивов внутри соответствует порядку категорий, внутри массивов индексы перетаскиваемых элементов
                     </li>
                     <li>
-                        "isPatrialScore" (<span class="type">obj</span>) — логика частичных баллов за распределение предметов по контейнерам
+                        "isPartialScore" (<span class="type">obj</span>) — логика частичных баллов за распределение предметов по контейнерам
                         <ul>
                             <li><span class="value">false</span> — частичное количество баллов не выдаётся</li>
                             <li>
