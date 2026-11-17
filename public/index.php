@@ -265,7 +265,7 @@ else{
     if (isset($_SESSION['username']) && json_decode(file_get_contents('../app/database/game_state.json'), true)['status'] == 'started' && count(CONFIG['questions']) !== 0){
         //после ответа
         if(isset($_SESSION['qnum']) && isset($_POST['answer'])){
-            if((int)$_POST['answer'] < count(CONFIG['questions'][$_SESSION['qnum']]['answers']['variants'])){
+            if(CONFIG['questions'][$_SESSION['qnum']]['type'] == 'input' || (int)$_POST['answer'] < count(CONFIG['questions'][$_SESSION['qnum']]['answers']['variants'])){
                 //здесь будет запись ответа в бд
 
                 $_SESSION['qnum'] = $_SESSION['qnum'] + 1;
