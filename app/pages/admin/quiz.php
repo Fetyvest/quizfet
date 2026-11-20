@@ -8,5 +8,10 @@
 <body>
     <h1>ADMIN</h1>
     if you are reading this text, then everything is working!
+
+    <form action="" method="POST">
+        <p>Click to stop game (after reload)</p>
+        <button name="GAME" value="delete_gameState">Delete <pre>game_state.json</pre></button>
+    </form>
 </body>
 </html>

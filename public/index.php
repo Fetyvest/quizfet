@@ -81,6 +81,13 @@ function get_colors_answer(int $count, float $s = 100.0, float $l = 50.0, float 
 }
 
 if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
+    //required stop game
+    if(isset($_POST['GAME']) && $_POST['GAME'] === 'delete_gameState'){
+        unlink('../app/database/game_state.json');
+        header('Location: ./');
+        exit;
+    }
+
     if (isset($_GET['action']) && $_GET['action'] === 'stream_players' && strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'text/event-stream') !== false) {
         require_once __DIR__ . '/../app/pages/admin/stream.php';
         exit;
@@ -110,6 +117,17 @@ else{
     if (isset($_GET['action']) && $_GET['action'] === 'stream_start' && strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'text/event-stream') !== false) {
         require_once __DIR__ . '/../app/pages/stream_start.php';
         exit;
+    }
+    if(json_decode(file_get_contents('../app/database/game_state.json'), true)['status'] == 'waiting'){
+        session_start();
+        unset($_SESSION['qnum']);
+        session_write_close();
+        unset($_POST['answer']);
+
+        // if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        //     header('Location: ./');
+        //     exit;
+        // }
     }
 
     function free_username($username = null){
@@ -274,9 +292,13 @@ else{
             }
         }
         //продолжение
-        else if(isset($_SESSION['qnum']) && !isset($_POST['answer'])){
-            if($_SESSION['qnum'] === count(CONFIG['questions'])){
-                echo 'Всё, вопросы кончились!';
+        else if(!isset($_POST['answer']) && json_decode(file_get_contents('../app/database/game_state.json'), true)['started_at'] < time() - 5){
+            if (!isset($_SESSION['qnum'])){
+                $_SESSION['qnum'] = 0;
+                require_once '../app/pages/quiz.php';
+            }
+            else if($_SESSION['qnum'] === count(CONFIG['questions'])){
+                require_once '../app/pages/end.php';
             }
             else{
                 require_once '../app/pages/quiz.php';
@@ -284,12 +306,16 @@ else{
         }
         //первый старт
         else if(!isset($_SESSION['qnum']) && !isset($_POST['answer'])){
-            $_SESSION['qnum'] = 0;
-            require_once '../app/pages/quiz.php';
+            // $_SESSION['qnum'] = 0;
+            // require_once '../app/pages/quiz.php';
+            require_once '../app/pages/countdown.php';
+        }
+        else{
+            echo 'Error!';
         }
     }
     //по сути, отменяет смену ника
-    else if($_SERVER['REQUEST_METHOD'] == 'POST' && $_POST['username'] == $_SESSION['username']){
+    else if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && $_POST['username'] == $_SESSION['username']){
         unset($_SESSION['relogin']);
 
         header('Location: ./');

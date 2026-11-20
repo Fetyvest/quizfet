@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Ввод ответа</title>
     <style>
         :root {
@@ -40,7 +40,25 @@
             overflow: hidden;
         }
 
-        /* Шапка вопроса */
+        /* Оверлей для мгновенного старта плавного выхода из темноты (500 мс) */
+        .screen-reveal {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-color);
+            z-index: 999;
+            pointer-events: none;
+            animation: revealScreen 0.5s ease-out forwards;
+        }
+
+        @keyframes revealScreen {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
         .question-box {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -80,7 +98,6 @@
             word-break: break-word;
         }
 
-        /* Основная область */
         .answer-area {
             width: 100%;
             flex: 1;
@@ -105,7 +122,6 @@
             gap: clamp(24px, 4vh, 40px);
         }
 
-        /* Общий контейнер строки с тремя зонами */
         .input-row {
             display: flex;
             align-items: center;
@@ -115,7 +131,6 @@
             min-width: 0;
         }
 
-        /* Общие стили скроллбаров */
         .input-affix,
         .input-center-scroll:has(.char-cells-wrapper) {
             overflow-x: auto;
@@ -132,7 +147,7 @@
 
         .input-affix::-webkit-scrollbar-track,
         .input-center-scroll:has(.char-cells-wrapper)::-webkit-scrollbar-track {
-            background: transparent;
+            background: 0 0;
         }
 
         .input-affix::-webkit-scrollbar-thumb,
@@ -146,7 +161,6 @@
             background-color: var(--text-muted);
         }
 
-        /* ЗОНЫ 1 и 3: Начальный и конечный текст (макс. 25% ширины, моноширинный шрифт) */
         .input-affix {
             font-family: var(--font-mono);
             font-size: var(--font-size-input);
@@ -161,7 +175,6 @@
             display: none;
         }
 
-        /* ЗОНА 2: Контейнер для инпута / ячеек */
         .input-center-scroll {
             display: flex;
             align-items: center;
@@ -169,19 +182,16 @@
             flex: 0 1 auto;
         }
 
-        /* Ограничение 50% и скролл только для режима с ячейками */
         .input-center-scroll:has(.char-cells-wrapper) {
             max-width: 50%;
             padding-top: 4px;
         }
 
-        /* Для обычного инпута скролл контейнера не нужен */
         .input-center-scroll:has(.text-input-standard) {
             overflow: visible;
             padding-bottom: 8px;
         }
 
-        /* ВАРИАНТ 1: Обычный инпут (моноширинный шрифт) */
         .text-input-standard {
             background-color: var(--player-bg);
             border: 1px solid var(--border-color);
@@ -193,16 +203,15 @@
             font-weight: 500;
             width: clamp(260px, 35vw, 520px);
             max-width: 100%;
-            outline: none;
+            outline: 0;
             transition: border-color .15s ease, box-shadow .15s ease;
         }
 
         .text-input-standard:focus {
             border-color: var(--border-active);
-            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.25);
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, .25);
         }
 
-        /* ВАРИАНТ 2: Адаптивный инпут (ячейки с моноширинным шрифтом) */
         .char-cells-wrapper {
             display: flex;
             align-items: center;
@@ -221,18 +230,17 @@
             font-size: var(--font-size-input);
             font-weight: 600;
             text-align: center;
-            outline: none;
+            outline: 0;
             caret-color: var(--border-active);
             transition: border-color .15s ease, transform .1s ease, box-shadow .15s ease;
         }
 
         .char-cell:focus {
             border-color: var(--border-active);
-            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.25);
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, .25);
             transform: translateY(-2px);
         }
 
-        /* Кнопка отправки */
         .btn-submit {
             width: 100%;
             max-width: 380px;
@@ -243,7 +251,7 @@
             border: 1px solid rgba(240, 246, 252, .1);
             border-radius: 6px;
             font-family: var(--font-sans);
-            font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem);
+            font-size: clamp(1.05rem, 1rem + .3vw, 1.25rem);
             font-weight: 600;
             cursor: pointer;
             transition: background-color .2s, transform .1s;
@@ -258,7 +266,10 @@
         }
     </style>
 </head>
+
 <body>
+    <!-- Оверлей плавного появления страницы -->
+    <div class="screen-reveal"></div>
 
     <header class="question-box">
         <h1 class="question-box__title"><?php echo QUESTION['title']; ?></h1>
@@ -267,12 +278,8 @@
 
     <main class="answer-area">
         <form class="answer-form" id="answer-form" action="" method="POST" autocomplete="off">
-            
             <div class="input-row">
-                <!-- СКРОЛЛ 1: Начальный текст (макс. 25%) -->
                 <span class="input-affix"><?php echo QUESTION['answers']['done']['before'] ?? null ?></span>
-
-                <!-- ЦЕНТРАЛЬНЫЙ БЛОК -->
                 <div class="input-center-scroll">
                     <?php
                     if(isset(QUESTION['answers']['showCountSymbols']) && QUESTION['answers']['showCountSymbols'] == true){
@@ -281,7 +288,6 @@
 
                         $maxlength = 0;
                         if(is_array(QUESTION['answers']['correct'])){
-                            // $count = QUESTION['answer']['correct'];
                             foreach(QUESTION['answers']['correct'] as $el){
                                 if(mb_strlen((string)$el) > $maxlength){
                                     $maxlength = mb_strlen((string)$el);
@@ -301,13 +307,10 @@
                     else{
                         echo '<input type="text" name="answer" class="text-input-standard" required autofocus>';
                     }
-                    ?>                   
+                    ?>
                 </div>
-
-                <!-- СКРОЛЛ 3: Конечный текст -->
                 <span class="input-affix"><?php echo QUESTION['answers']['done']['after'] ?? null ?></span>
             </div>
-
             <button type="submit" class="btn-submit">Ответить</button>
         </form>
     </main>

@@ -38,6 +38,25 @@
             overflow: hidden;
         }
 
+        /* Оверлей для мгновенного старта плавного выхода из темноты (500 мс) */
+        .screen-reveal {
+            position: fixed;
+            inset: 0;
+            background-color: var(--bg-color);
+            z-index: 999;
+            pointer-events: none;
+            animation: revealScreen 0.5s ease-out forwards;
+        }
+
+        @keyframes revealScreen {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
         /* Блок вопроса на всю ширину (БЭМ: .question-box) */
         .question-box {
             background-color: var(--card-bg);
@@ -166,6 +185,9 @@
     </style>
 </head>
 <body>
+    <!-- Оверлей плавного появления страницы -->
+    <div class="screen-reveal"></div>
+
     <?php
     if(QUESTION === null){
         define('QUESTION', CONFIG['questions'][$_SESSION['qnum']]);
