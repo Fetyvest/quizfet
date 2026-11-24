@@ -78,7 +78,7 @@
                         "showQuestionCount" (<span class="type">bool</span>)
                         <ul>
                             <li><span class="value">true</span> — показывать общее количество вопросов в квизе</li>
-                            <li><span class="value">false</span> — показывать количество только уже решённых вопросов</li>
+                            <li><span class="value">false</span> — показывать номер текущего вопроса</li>
                         </ul>
                     </li>
                     <li>
@@ -362,7 +362,7 @@
             </li>
             <li>"title" (<span class="type">string</span>) — основной текст (формулировка) вопроса. Поддерживает UTF-8 кодировку</li>
             <li>"subtitle" (<span class="type">string</span>) — подзаголовок, дополнительное описание, подсказка или контекст к вопросу</li>
-            <li>"image" (<span class="type">string</span>) — ссылка на изображение к вопросу (может быть абсолютным URL "https://..." или локальным путем "./img.png")</li>
+            <li>"image" (<span class="type">string</span>) — ссылка на изображение к вопросу (может быть абсолютным URL "https://..." (не рекомендуется, тк сильно замедляет загрузку страницы) или локальным путем "./img/img.png")</li>
             <li>
                 "hint" (<span class="type">obj</span>) — настройки подсказки для текущего вопроса
                 <ul>

@@ -69,7 +69,8 @@
         .game-header__info:empty,
         .game-header__meta:has(.game-header__badge:empty),
         .game-header__subtitle:empty,
-        .game-header__title:empty {
+        .game-header__title:empty,
+        .game-header__counter:empty {
             display: none;
         }
 
@@ -84,6 +85,21 @@
             font-size: var(--font-size-body);
             color: var(--text-muted);
             line-height: 1.3;
+        }
+
+        .game-header__counter {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: calc(var(--font-size-h1) * 0.85);
+            font-weight: 600;
+            color: var(--text-muted);
+            background-color: var(--player-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2px 10px;
+            line-height: 1.2;
         }
 
         .game-header__meta {
@@ -192,6 +208,12 @@
             <h1 class="game-header__title"><?php echo CONFIG['game']['title']; ?></h1>
             <p class="game-header__subtitle"><?php echo CONFIG['game']['subtitle']; ?></p>
         </div>
+        <div class="game-header__counter"><?php
+            if(CONFIG['game']['showQuestionCount'] == true){
+                $all = count(CONFIG['questions']);
+                echo $all;
+            }
+        ?></div>
     </div>
 
     <div class="admin-panel countdown-panel">
@@ -222,9 +244,21 @@
             }
         }
 
-        if (Date.now() / 1000 - startTime >= 5) {
-            updateCountdownText('Старт!', true);
+        if(Date.now() / 1000 - startTime >= 6){
             window.location.reload();
+        }
+        else if (Date.now() / 1000 - startTime >= 5) {
+            updateCountdownText('Старт!', true);
+
+            // Начинаем затемнение на 0.5с раньше (через 250мс вместо 600мс)
+                    setTimeout(() => {
+                        screenFade.classList.add('screen-fade--active');
+                    }, 250);
+
+                    // Перезагружаем страницу через 1200мс — экран пробудет полностью тёмным ~550мс
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
         } else {
             let interval = setInterval(() => {
                 const elapsed = Date.now() / 1000 - startTime;

@@ -155,13 +155,15 @@
         <h1 class="game-info__title"><?php echo CONFIG['game']['title'] ?? ''; ?></h1>
         <p class="game-info__subtitle"><?php echo CONFIG['game']['subtitle'] ?? ''; ?></p>
         
-        <!--
+        
         <div class="game-info__meta">
-            <span class="game-info__badge">
-                <?php if (isset(CONFIG['questions'])) echo 'Вопросов: ' . count(CONFIG['questions']); ?>
-            </span>
+            <span class="game-info__badge"><?php
+            if(CONFIG['game']['showQuestionCount'] == true){
+                echo 'Вопросов: ' . count(CONFIG['questions']);
+            }
+            ?></span>
         </div>
-        -->
+       
     <?php
     if (!empty(CONFIG['game']['title']) || !empty(CONFIG['game']['subtitle'])) {
         echo '</div>';

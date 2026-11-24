@@ -132,7 +132,7 @@
         {
             "type": "select",
             "title": "This is тестовый вопрос?",
-            "image": "https:test.test/img.png",
+            "image": "https://fetyvest.ru/img/basic/bg.jpg",
             "answers": {
                 "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
                 "correct": 1
@@ -141,7 +141,7 @@
         {
             "type": "select",
             "title": "This is тестовый вопрос?",
-            "image": "./img.png",
+            "image": "./img/img.png",
             "answers": {
                 "variants": ["Yes", "Конечно", "Not совсем", "#!?"],
                 "correct": 1
